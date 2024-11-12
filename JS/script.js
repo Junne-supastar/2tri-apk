@@ -1,179 +1,116 @@
 
-function cadastrar(dados){
-    let name = nome.value;
-    let snome = sobrenome.value;
+function calcularConsulta(){
+    let selectdepartamento = document.getElementById("departamento");
+    let valor = 0;
     
-    alert("Bem-vindo ao Pinklothes " + name + " " + snome+"!\nSeus dados foram salvos com sucesso");
+    
+    switch(selectdepartamento.value){
+        case "70" :
+        valor = 70;
+        break;
+
+        case "80":
+        valor = 80;
+        break;
+
+        case "100" :
+        valor = 100;
+        break;
+
+        default:
+        valor = 95;
+        break;
+
+    }
+
+    return valor; // Retorna o valor calculado;
+   
 
 }
 
-function maiuscula(letra){
-    cadastro.nome.value = cadastro.nome.value.toUpperCase();
-    cadastro.sobrenome.value = cadastro.sobrenome.value.toUpperCase();
+function consultar(){
+    // entrada de dados
+    
+    let nomeInput =  document.getElementById("nome").value;
+    let idadeInput = Number(document.getElementById("idade").value);
+    
+    let simRadio = document.getElementById("sim");
+    let naoRadio = document.getElementById("nao");
+    
+    let selectFilial = document.getElementById("filial").value;
+    let lugar;
 
-}
-
-
-function senha(){
-    s1 = password.value;
-    s2 = password2.value;
-
-    if(s1 != s2){
-        document.getElementById('msg').style.display = "block";
-    } else{
-        document.getElementById('msg').style.display = "none";
-        
+    if(selectFilial == "anchieta"){
+        lugar = "Anchieta";
     }
-
-}
-
-
-function somente_letra(e){
-    tecla = (window.event)?event.keyCode:e.which;
-
-    if ((tecla >= 65 && tecla <= 90) || (tecla == 8) || (tecla == 37) || (tecla == 39)){
-        return true;
+    else if(selectFilial == "copacabana"){
+        lugar = "Copacabana";
     }
-    else{
-        return false;
+    else if(selectFilial == "marechal"){
+        lugar = "Marechal Hermes";
     }
-
-}
-
-
-// ----------------------------------pagamento-------------------
-
-
-function somente_numero(e){
-    tecla = (window.event)?event.keyCode:e.which;
-
-    if ((tecla >= 48 && tecla <= 57) || (tecla >= 96 && tecla <= 105) || (tecla == 8) || (tecla == 37) || (tecla == 39)){
-        return true;
-    }
-    else{
-        return false;
-    }
-
-}
-
-
-function mascara_cpf(obj){
-    if(obj.value.length == 3 ){
-        obj.value += ".";
-    }
-    if(obj.value.length == 7 ){
-        obj.value += ".";
-    }
-    if(obj.value.length == 11 ){
-        obj.value += "-";
-    }
-}
-function mascara_telefone(obj){
-    if(obj.value.length == 0 ){
-        obj.value += "(";
-    }
-    if(obj.value.length == 3 ){
-        obj.value += ")";
-    }
-    if(obj.value.length == 9 ){
-        obj.value += "-";
-    }
-}
-function mascara_numero(obj){
-    if(obj.value.length == 4 ){
-        obj.value += " ";
-    }
-    if(obj.value.length == 9 ){
-        obj.value += " ";
-    }
-    if(obj.value.length == 14 ){
-        obj.value += " ";
-    }
-}
-function mascara_vencimento(obj){
-    if(obj.value.length == 2 ){
-        obj.value += "/";
-    }
-  
-}
-
-
-
-function mudar(){
-    let pagamento = pgmt.value;
-
-
-    if (pagamento == "Cartão") {
-        document.getElementById('cartao').style.display = "block";
-        document.getElementById('pix').style.display = "none";
-        document.getElementById('numero').focus();
-    } 
-    else if (pagamento == "Pix") {
-        document.getElementById('pix').style.display = "block";
-        document.getElementById('cartao').style.display = "none";
-    } 
     else {
-        document.getElementById('cartao').style.display = "none";
-        document.getElementById('pix').style.display = "none";
+        lugar = "Nilópolis";
     }
- 
+    
+    
+    let selectHorarios = document.getElementById("horarios").value;
+    let hora;
+    
+
+    switch(selectHorarios){
+        case "07":
+        hora = "07h";
+        break;
+
+        case "09":
+        hora = "09h";
+        break;
+
+        case "11":
+        hora = "11h";
+        break;
+
+        case "13":
+            hora = "13h";
+            break;
+
+        case "15":
+        hora = "15h";
+        break;
+
+        case "17":
+            hora = "17h";
+        break;
+
+        case "19":
+        hora = "19h";
+        break;
+
+        default:
+        hora = "21h";
+   
+     
+    }
 
 
-}
+    var msg;
+    var valordesconto;
+    var desconto;
+    let valor = calcularConsulta();
 
-function calculo(preco,marcado){
-    tot = parseFloat(total.textContent.replace(',','.')) || 0;
 
-    if(marcado){
-        tot = Number(tot) + Number(preco)
+    if(simRadio.checked){
+        desconto = valor * 30/100;
+        valordesconto = valor - desconto ;
+        msg = Number(valordesconto);
     } else {
-        tot = Number(tot) - Number(preco)
+        msg = valor;
     }
-
-    total.textContent = tot.toFixed(2).replace(',','.');
-
-
-}
-
-    
-
-
-function salto(campo,digito){
-    if(campo == "cpf"){
-        if(digito.length>13){
-            document.compra.telefone.focus();
-        }
-    }
-    
-    if(campo == "telefone"){
-        if(digito.length>13){
-            document.compra.pgmt.focus();
-        }
-    }
-
-    if(campo == "pgmt"){
-        if(digito.checked){
-            document.compra.numero.focus();
-        }
-    }
-
-    if(campo == "numero"){
-        if(digito.length>18){
-            document.compra.cod.focus();
-        }
-    }
-
-    if(campo == "cod"){
-        if(digito.length>2){
-            document.compra.venc.focus();
-        }
-    }
-
-
-}
-
-function pagar(){
-    window.alert("Pagamento realizado com sucesso! ;)");
+    window.alert("Nome: " + nomeInput +
+    "\nIdade: " + idadeInput + "\nHorário da Consulta: " + hora +
+    "\nFilial: " + lugar + "\nPreço por consulta: R$" +valor.toFixed(2)+ 
+    "\nPreço com desconto de 30%: R$" + msg.toFixed(2));
 }
 
 
